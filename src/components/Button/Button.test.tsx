@@ -1,0 +1,4 @@
+import { fireEvent, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { Button } from './Button';
+describe('Button', () => { it('renders every supported variant', () => { for (const variant of ['primary', 'secondary', 'ghost'] as const) { const { unmount } = render(<Button variant={variant}>Save</Button>); expect(screen.getByRole('button')).toHaveClass(`faster-button--${variant}`); unmount(); } }); it('fires click and prevents disabled interaction', () => { const click = jest.fn(); const { rerender } = render(<Button onClick={click}>Save</Button>); fireEvent.click(screen.getByRole('button')); expect(click).toHaveBeenCalledTimes(1); rerender(<Button disabled onClick={click}>Save</Button>); fireEvent.click(screen.getByRole('button')); expect(click).toHaveBeenCalledTimes(1); }); });
