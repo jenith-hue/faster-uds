@@ -89,7 +89,5 @@ export function DialogBody({ children }: DialogContentProps) {
 }
 
 export function DialogFooter({ children }: DialogContentProps) {
-  return (
-    <footer className={styles["faster-dialog__footer"]}>{children}</footer>
-  );
+  return <footer className={styles["faster-dialog__footer"]}>{children}</footer>;
 }
