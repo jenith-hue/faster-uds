@@ -13,7 +13,12 @@ export type {
   DialogProps,
 } from "./Dialog.types";
 
-export function Dialog({ open, onOpenChange, children, ...props }: DialogProps) {
+export function Dialog({
+  open,
+  onOpenChange,
+  children,
+  ...props
+}: DialogProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
 
@@ -55,7 +60,7 @@ export function Dialog({ open, onOpenChange, children, ...props }: DialogProps) 
         {children}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }
 
@@ -84,5 +89,7 @@ export function DialogBody({ children }: DialogContentProps) {
 }
 
 export function DialogFooter({ children }: DialogContentProps) {
-  return <footer className={styles["faster-dialog__footer"]}>{children}</footer>;
+  return (
+    <footer className={styles["faster-dialog__footer"]}>{children}</footer>
+  );
 }
