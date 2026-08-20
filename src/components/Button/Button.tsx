@@ -1,5 +1,6 @@
-import "./Button.css";
+import styles from "./Button.module.css";
 import type { ButtonIconPosition, ButtonProps } from "./Button.types";
+
 export type {
   ButtonIconPosition,
   ButtonProps,
@@ -9,8 +10,8 @@ export type {
 
 function getIconPositionClass(position: ButtonIconPosition) {
   return position === "end"
-    ? "faster-button__icon--end"
-    : "faster-button__icon--start";
+    ? styles["faster-button__icon--end"]
+    : styles["faster-button__icon--start"];
 }
 
 export function Button({
@@ -32,11 +33,11 @@ export function Button({
   const isIconOnly = Boolean(icon) && !children;
   const busy = loading || ariaBusy;
   const classes = [
-    "faster-button",
-    `faster-button--${variant}`,
-    `faster-button--${size}`,
-    fullWidth ? "faster-button--full-width" : "",
-    isIconOnly ? "faster-button--icon-only" : "",
+    styles["faster-button"],
+    styles[`faster-button--${variant}`],
+    styles[`faster-button--${size}`],
+    fullWidth ? styles["faster-button--full-width"] : "",
+    isIconOnly ? styles["faster-button--icon-only"] : "",
     className,
   ]
     .filter(Boolean)
@@ -45,21 +46,25 @@ export function Button({
   const content = (
     <>
       {loading ? (
-        <span className="faster-button__spinner" aria-hidden="true" />
+        <span className={styles["faster-button__spinner"]} aria-hidden="true" />
       ) : icon && iconPosition === "start" ? (
         <span
-          className={`faster-button__icon ${getIconPositionClass(iconPosition)}`}
+          className={`${styles["faster-button__icon"]} ${getIconPositionClass(
+            iconPosition
+          )}`}
           aria-hidden="true"
         >
           {icon}
         </span>
       ) : null}
       {children ? (
-        <span className="faster-button__label">{children}</span>
+        <span className={styles["faster-button__label"]}>{children}</span>
       ) : null}
       {!loading && icon && iconPosition === "end" ? (
         <span
-          className={`faster-button__icon ${getIconPositionClass(iconPosition)}`}
+          className={`${styles["faster-button__icon"]} ${getIconPositionClass(
+            iconPosition
+          )}`}
           aria-hidden="true"
         >
           {icon}

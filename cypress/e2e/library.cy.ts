@@ -1,1 +1,15 @@
-describe('Faster demo', () => { beforeEach(() => cy.visit('/')); it('opens and closes dialog through mouse and keyboard', () => { cy.contains('button', 'Open dialog').click(); cy.get('[role="dialog"]').should('be.visible'); cy.get('body').type('{esc}'); cy.get('[role="dialog"]').should('not.exist'); }); it('renders accessible input details', () => { cy.get('label').contains('Work email').invoke('attr', 'for').then((id) => cy.get(`#${id}`).should('have.attr', 'aria-describedby')); }); });
+describe("Faster demo", () => {
+  beforeEach(() => cy.visit("/"));
+  it("opens and closes dialog through mouse and keyboard", () => {
+    cy.contains("button", "Open dialog").click();
+    cy.get('[role="dialog"]').should("be.visible");
+    cy.get("body").type("{esc}");
+    cy.get('[role="dialog"]').should("not.exist");
+  });
+  it("renders accessible input details", () => {
+    cy.get("label")
+      .contains("Work email")
+      .invoke("attr", "for")
+      .then((id) => cy.get(`#${id}`).should("have.attr", "aria-describedby"));
+  });
+});
