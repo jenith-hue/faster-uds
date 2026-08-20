@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import styles from "./Dialog.module.css";
 import type {
   DialogContentProps,
   DialogHeaderProps,
   DialogProps,
 } from "./Dialog.types";
-import "./Dialog.css";
 
 export type {
   DialogContentProps,
@@ -44,14 +44,14 @@ export function Dialog({
 
   return createPortal(
     <div
-      className="faster-dialog__backdrop"
+      className={styles["faster-dialog__backdrop"]}
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onOpenChange(false);
       }}
     >
       <div
         ref={dialogRef}
-        className="faster-dialog"
+        className={styles["faster-dialog"]}
         role="dialog"
         aria-modal="true"
         tabIndex={-1}
@@ -66,13 +66,13 @@ export function Dialog({
 
 export function DialogHeader({ title, id, onClose }: DialogHeaderProps) {
   return (
-    <header className="faster-dialog__header">
-      <h2 id={id} className="faster-dialog__title">
+    <header className={styles["faster-dialog__header"]}>
+      <h2 id={id} className={styles["faster-dialog__title"]}>
         {title}
       </h2>
       {onClose && (
         <button
-          className="faster-dialog__close"
+          className={styles["faster-dialog__close"]}
           type="button"
           aria-label="Close dialog"
           onClick={onClose}
@@ -85,9 +85,9 @@ export function DialogHeader({ title, id, onClose }: DialogHeaderProps) {
 }
 
 export function DialogBody({ children }: DialogContentProps) {
-  return <div className="faster-dialog__body">{children}</div>;
+  return <div className={styles["faster-dialog__body"]}>{children}</div>;
 }
 
 export function DialogFooter({ children }: DialogContentProps) {
-  return <footer className="faster-dialog__footer">{children}</footer>;
+  return <footer className={styles["faster-dialog__footer"]}>{children}</footer>;
 }

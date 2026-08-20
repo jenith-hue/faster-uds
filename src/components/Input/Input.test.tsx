@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Input } from "./Input";
+import styles from "./Input.module.css";
 
 describe("Input", () => {
   it("connects label and helper text to input", () => {
@@ -20,6 +21,8 @@ describe("Input", () => {
     fireEvent.change(input, { target: { value: "bad" } });
     expect(input).toHaveValue("bad");
     expect(input).toHaveAttribute("aria-invalid", "true");
-    expect(screen.getByText("Invalid email")).toHaveClass("faster-input__error");
+    expect(screen.getByText("Invalid email")).toHaveClass(
+      styles["faster-input__error"]
+    );
   });
 });

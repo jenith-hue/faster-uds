@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Dialog, DialogHeader } from "./Dialog";
+import styles from "./Dialog.module.css";
 
 describe("Dialog", () => {
   it("is absent when closed and announces modal semantics when open", () => {
@@ -31,7 +32,9 @@ describe("Dialog", () => {
     );
     fireEvent.keyDown(document, { key: "Escape" });
     expect(change).toHaveBeenLastCalledWith(false);
-    fireEvent.mouseDown(document.querySelector(".faster-dialog__backdrop")!);
+    fireEvent.mouseDown(
+      document.querySelector(`.${styles["faster-dialog__backdrop"]}`)!
+    );
     expect(change).toHaveBeenCalledTimes(2);
     rerender(
       <Dialog open onOpenChange={change}>

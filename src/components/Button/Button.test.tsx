@@ -1,13 +1,14 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Button } from "./Button";
+import styles from "./Button.module.css";
 
 describe("Button", () => {
   it("renders every supported variant", () => {
     for (const variant of ["primary", "secondary", "ghost"] as const) {
       const { unmount } = render(<Button variant={variant}>Save</Button>);
       expect(screen.getByRole("button")).toHaveClass(
-        `faster-button--${variant}`
+        styles[`faster-button--${variant}`]
       );
       unmount();
     }
@@ -21,13 +22,13 @@ describe("Button", () => {
     );
 
     expect(screen.getByRole("button")).toHaveClass(
-      "faster-button--sm",
-      "faster-button--full-width"
+      styles["faster-button--sm"],
+      styles["faster-button--full-width"]
     );
 
     rerender(<Button size="lg">Save</Button>);
 
-    expect(screen.getByRole("button")).toHaveClass("faster-button--lg");
+    expect(screen.getByRole("button")).toHaveClass(styles["faster-button--lg"]);
   });
 
   it("renders icons in the requested position", () => {
@@ -40,7 +41,9 @@ describe("Button", () => {
     );
 
     const startButton = screen.getByRole("button");
-    expect(startButton.firstElementChild).toHaveClass("faster-button__icon");
+    expect(startButton.firstElementChild).toHaveClass(
+      styles["faster-button__icon"]
+    );
     expect(startButton).toHaveTextContent("Add");
 
     rerender(
@@ -50,7 +53,9 @@ describe("Button", () => {
     );
 
     const endButton = screen.getByRole("button");
-    expect(endButton.lastElementChild).toHaveClass("faster-button__icon");
+    expect(endButton.lastElementChild).toHaveClass(
+      styles["faster-button__icon"]
+    );
   });
 
   it("fires click and prevents disabled or loading interaction", () => {
