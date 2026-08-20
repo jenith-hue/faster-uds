@@ -1,6 +1,6 @@
 import { useId } from "react";
-import styles from "./Input.module.css";
 import type { InputProps } from "./Input.types";
+import "./Input.css";
 
 export type { InputProps } from "./Input.types";
 
@@ -20,12 +20,12 @@ export function Input({
   const message = error ?? helperText;
 
   return (
-    <div className={styles["faster-input"]}>
+    <div className="faster-input">
       {label && (
-        <label className={styles["faster-input__label"]} htmlFor={inputId}>
+        <label className="faster-input__label" htmlFor={inputId}>
           {label}
           {required && (
-            <span className={styles["faster-input__required"]} aria-hidden="true">
+            <span className="faster-input__required" aria-hidden="true">
               {" "}
               *
             </span>
@@ -37,15 +37,13 @@ export function Input({
         required={required}
         aria-invalid={Boolean(error)}
         aria-describedby={describedBy ?? (message ? hintId : undefined)}
-        className={`${styles["faster-input__control"]} ${className}`.trim()}
+        className={`faster-input__control ${className}`.trim()}
         {...props}
       />
       {message && (
         <p
           id={hintId}
-          className={`${styles["faster-input__hint"]} ${
-            error ? styles["faster-input__error"] : ""
-          }`}
+          className={`faster-input__hint ${error ? "faster-input__error" : ""}`}
         >
           {message}
         </p>

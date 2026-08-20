@@ -1,6 +1,6 @@
 {
   "name": "faster-ui-core",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Accessible React UI primitives built with reusable CSS design tokens.",
   "license": "MIT",
   "type": "module",
@@ -17,7 +17,7 @@
       "import": "./dist/faster.js",
       "require": "./dist/faster.cjs"
     },
-    "./styles.css": "./dist/faster.css"
+    "./library.css": "./dist/library.css"
   },
   "sideEffects": [
     "**/*.css"
@@ -71,6 +71,7 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.67.0",
     "vite": "^8.2.0",
+    "vite-plugin-lib-inject-css": "^2.2.2",
     "vitest": "4.1.10"
   }
 }
