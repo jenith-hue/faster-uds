@@ -1,0 +1,6 @@
+:root {
+  --faster-font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --faster-font-size-sm: 0.875rem;
+  --faster-font-size-base: 1rem;
+  --faster-line-height: 1.5;
+}

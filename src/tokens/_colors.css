@@ -1,0 +1,15 @@
+:root {
+  --faster-color-brand-500: #2563eb;
+  --faster-color-brand-600: #1d4ed8;
+  --faster-color-neutral-0: #fff;
+  --faster-color-neutral-50: #f8fafc;
+  --faster-color-neutral-100: #f1f5f9;
+  --faster-color-neutral-300: #cbd5e1;
+  --faster-color-neutral-500: #64748b;
+  --faster-color-neutral-700: #334155;
+  --faster-color-neutral-900: #0f172a;
+  --faster-color-danger-600: #dc2626;
+  --faster-color-focus: #2563eb;
+   --faster-shadow-dialog:
+    0 20px 25px -5px rgb(15 23 42 / 0.15), 0 8px 10px -6px rgb(15 23 42 / 0.1);
+}

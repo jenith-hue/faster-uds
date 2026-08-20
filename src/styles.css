@@ -1,0 +1,44 @@
+@import "./tokens/_colors.css";
+@import "./tokens/_spacing.css";
+@import "./tokens/_typography.css";
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--faster-font-sans);
+  color: var(--faster-color-neutral-900);
+  background: var(--faster-color-neutral-50);
+}
+.demo-shell {
+  width: min(42rem, calc(100% - 2rem));
+  margin: 5rem auto;
+}
+.demo-eyebrow {
+  color: var(--faster-color-brand-600);
+  font-weight: 700;
+  font-size: var(--faster-font-size-sm);
+  letter-spacing: 0.08em;
+}
+.demo-shell h1 {
+  max-width: 34rem;
+  margin: var(--faster-space-3) 0;
+  font-size: clamp(2.25rem, 7vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+.demo-copy {
+  max-width: 36rem;
+  color: var(--faster-color-neutral-500);
+  line-height: var(--faster-line-height);
+}
+.demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--faster-space-3);
+  margin: var(--faster-space-6) 0;
+}
+.demo-input {
+  max-width: 24rem;
+}

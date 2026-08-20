@@ -1,0 +1,125 @@
+.faster-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--faster-space-2);
+  min-height: 2.5rem;
+  padding: var(--faster-space-2) var(--faster-space-4);
+  border: 1px solid transparent;
+  border-radius: var(--faster-radius-md);
+  font: inherit;
+  font-weight: 600;
+  font-size: var(--faster-font-size-sm);
+  line-height: 1.25;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    opacity 150ms ease,
+    transform 150ms ease;
+}
+
+.faster-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--faster-color-focus), transparent 60%);
+  outline-offset: 2px;
+}
+
+.faster-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.faster-button--full-width {
+  width: 100%;
+}
+
+.faster-button--sm {
+  min-height: 2rem;
+  padding: var(--faster-space-1) var(--faster-space-3);
+  font-size: var(--faster-font-size-sm);
+}
+
+.faster-button--md {
+  min-height: 2.5rem;
+}
+
+.faster-button--lg {
+  min-height: 3rem;
+  padding: var(--faster-space-3) var(--faster-space-5);
+  font-size: var(--faster-font-size-base);
+}
+
+.faster-button--icon-only {
+  min-inline-size: 2.5rem;
+  padding-inline: var(--faster-space-2);
+}
+
+.faster-button__label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.faster-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.faster-button__icon--start {
+}
+
+.faster-button__icon--end {
+}
+
+.faster-button__spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 999px;
+  animation: faster-button-spin 0.75s linear infinite;
+}
+
+.faster-button--primary {
+  color: var(--faster-color-neutral-0);
+  background: var(--faster-color-brand-500);
+}
+
+.faster-button--primary:not(:disabled):hover {
+  background: var(--faster-color-brand-600);
+}
+
+.faster-button--secondary {
+  color: var(--faster-color-neutral-700);
+  background: var(--faster-color-neutral-0);
+  border-color: var(--faster-color-neutral-300);
+}
+
+.faster-button--secondary:not(:disabled):hover {
+  background: var(--faster-color-neutral-100);
+}
+
+.faster-button--ghost {
+  color: var(--faster-color-brand-600);
+  background: transparent;
+}
+
+.faster-button--ghost:not(:disabled):hover {
+  background: color-mix(in srgb, var(--faster-color-brand-500), transparent 92%);
+}
+
+@keyframes faster-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faster-button,
+  .faster-button__spinner {
+    transition: none;
+    animation: none;
+  }
+}
