@@ -8,14 +8,8 @@ import {
   ICON_POSITION_START,
   SIZE_MEDIUM,
 } from "../../const";
-import type {
-  ButtonCategory,
-  ButtonIconOnlyShape,
-  ButtonIconPosition,
-  ButtonProps,
-  ButtonSize,
-  ButtonVariant,
-} from "./Button.types";
+import type { ButtonProps } from "./Button.types";
+import { getButtonClassName, getIconPositionClass } from "./Button.utils";
 
 // export type {
 //   ButtonCategory,
@@ -25,30 +19,6 @@ import type {
 //   ButtonSize,
 //   ButtonVariant,
 // } from "./Button.types";
-
-function getButtonClassName(
-  base: string,
-  category: ButtonCategory,
-  variant: ButtonVariant,
-  size: ButtonSize,
-  iconOnlyShape?: ButtonIconOnlyShape,
-) {
-  return [
-    styles[base],
-    styles[`faster-button--${category}`],
-    styles[`faster-button--${variant}`],
-    styles[`faster-button--${size}`],
-    iconOnlyShape ? styles[`faster-button--icon-${iconOnlyShape}`] : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-}
-
-function getIconPositionClass(position: ButtonIconPosition) {
-  return position === ICON_POSITION_END
-    ? styles["faster-button__icon--end"]
-    : styles["faster-button__icon--start"];
-}
 
 export function Button({
   category = BUTTON_CATEGORY_NORMAL,
