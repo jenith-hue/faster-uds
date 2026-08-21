@@ -62,6 +62,31 @@ describe("Dialog", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("renders close button on the right when title is omitted", () => {
+    render(
+      <Dialog open onOpenChange={() => undefined} aria-label="No title">
+        <DialogHeader onClose={() => undefined} />
+        <DialogBody>Body</DialogBody>
+      </Dialog>
+    );
+
+    expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Close dialog" })).toBeInTheDocument();
+  });
+
+  it("adds body padding when divider is present", () => {
+    render(
+      <Dialog open onOpenChange={() => undefined} divider aria-label="Divided">
+        <DialogHeader title="Title" onClose={() => undefined} />
+        <DialogBody>Body</DialogBody>
+      </Dialog>
+    );
+
+    expect(
+      document.querySelector(`.${styles["faster-dialog__body"]}`)
+    ).toHaveAttribute("data-divider", "true");
+  });
+
   it("applies divider spacing and border classes", () => {
     render(
       <Dialog open onOpenChange={() => undefined} divider aria-label="Divided">

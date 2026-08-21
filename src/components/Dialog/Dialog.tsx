@@ -100,9 +100,9 @@ export function DialogHeader({ title, id, onClose }: DialogHeaderProps) {
       data-divider={divider ? "true" : "false"}
     >
       {hasTitle ? (
-        <h2 id={id} className={styles["faster-dialog__title"]}>
+        <span id={id} className={styles["faster-dialog__title"]}>
           {title}
-        </h2>
+        </span>
       ) : null}
       {hasClose ? (
         <button
@@ -119,7 +119,16 @@ export function DialogHeader({ title, id, onClose }: DialogHeaderProps) {
 }
 
 export function DialogBody({ children }: DialogContentProps) {
-  return <div className={styles["faster-dialog__body"]}>{children}</div>;
+  const { divider } = useDialogContext();
+
+  return (
+    <div
+      className={styles["faster-dialog__body"]}
+      data-divider={divider ? "true" : "false"}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function DialogFooter({ children }: DialogContentProps) {

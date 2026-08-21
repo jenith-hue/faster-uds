@@ -86,6 +86,3 @@ export const WithoutTitle: Story = {
 export const WithoutCloseButton: Story = {
   render: () => <Example showClose={false} />,
 };
-export const TitleAndCloseHidden: Story = {
-  render: () => <Example showTitle={false} showClose={false} />,
-};
