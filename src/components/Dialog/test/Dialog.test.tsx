@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Dialog, DialogBody, DialogFooter, DialogHeader } from "./Dialog";
-import styles from "./Dialog.module.css";
+import { Dialog, DialogBody, DialogFooter, DialogHeader } from "../Dialog";
+import styles from "../Dialog.module.css";
 
 describe("Dialog", () => {
   it("is absent when closed and announces modal semantics when open", () => {
