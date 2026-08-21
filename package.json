@@ -1,6 +1,6 @@
 {
   "name": "faster-ui-core",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Accessible React UI primitives built with reusable CSS design tokens.",
   "license": "MIT",
   "type": "module",
