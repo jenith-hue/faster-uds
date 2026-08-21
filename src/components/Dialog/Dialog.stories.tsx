@@ -27,8 +27,50 @@ const meta = {
     children: null,
   },
   argTypes: {
-    size: { control: "radio", options: ["small", "medium", "large"] },
-    divider: { control: "boolean" },
+    open: {
+      control: "boolean",
+      description:
+        "Controls whether the dialog is currently mounted and visible. Must be paired with `onOpenChange` to be dismissible by the user.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    onOpenChange: {
+      control: false,
+      description:
+        "Callback fired when the dialog requests to close (e.g. Escape key, backdrop click, or the header close button). Receives the next `open` value — typically used to update the state driving the `open` prop.",
+      table: {
+        type: { summary: "(open: boolean) => void" },
+      },
+    },
+    size: {
+      control: "radio",
+      options: ["small", "medium", "large"],
+      description:
+        "Sets the dialog's width. `small` suits brief confirmations, `medium` is the general-purpose default, and `large` fits forms or content-heavy dialogs.",
+      table: {
+        type: { summary: '"small" | "medium" | "large"' },
+        defaultValue: { summary: '"medium"' },
+      },
+    },
+    divider: {
+      control: "boolean",
+      description:
+        "When true, renders a visible rule between the header and body content. When false, header and body are separated only by spacing.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    children: {
+      control: false,
+      description:
+        "The dialog's content, typically composed from `DialogHeader`, `DialogBody`, and `DialogFooter` subcomponents in that order.",
+      table: {
+        type: { summary: "ReactNode" },
+      },
+    },
   },
 } satisfies Meta<typeof Dialog>;
 
@@ -121,7 +163,12 @@ function dialogSource({
 }
 
 export const Default: Story = {
-  render: () => <Example />,
+  render: (args) => (
+    <Example
+      size={args.size as "small" | "medium" | "large"}
+      divider={args.divider}
+    />
+  ),
   parameters: {
     docs: {
       source: {

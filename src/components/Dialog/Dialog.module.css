@@ -10,7 +10,7 @@
 
 .faster-dialog {
   width: min(100%, 600px);
-  max-height: calc(100vh - 2rem);
+  max-height: calc(100vh - var(--faster-space-4) * 2);
   overflow: auto;
   border-radius: 4px;
   background: var(--faster-color-neutral-0);
@@ -18,15 +18,15 @@
 }
 
 .faster-dialog--small {
-  max-width: 400px;
+  width: min(100%, var(--faster-modal-small-width));
 }
 
 .faster-dialog--medium {
-  max-width: 600px;
+  width: min(100%, var(--faster-modal-medium-width));
 }
 
 .faster-dialog--large {
-  max-width: 900px;
+  width: min(100%, var(--faster-modal-large-width));
 }
 
 .faster-dialog__header,
@@ -60,8 +60,8 @@
 
 .faster-dialog__close {
   margin-left: auto;
-  width: 2rem;
-  height: 2rem;
+  width: var(--faster-space-8);
+  height: var(--faster-space-8);
   border: 0;
   border-radius: var(--faster-radius-sm);
   color: var(--faster-color-neutral-700);
