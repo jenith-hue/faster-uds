@@ -1,7 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "../Button";
-import { Dialog, DialogBody, DialogFooter, DialogHeader } from "./Dialog";
+import { Dialog } from "./Dialog";
+
+const footer = (
+  <>
+    <Button variant="outline">Cancel</Button>
+    <Button>Delete</Button>
+  </>
+);
 
 const meta = {
   title: "Components/Dialog",
@@ -12,7 +20,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Dialog supports small, medium, and large widths, optional title and close button, optional divider treatment, and consistent modal spacing from the shared spacing tokens.",
+          "Dialog takes a plain title string, optional close button, optional footer content, optional divider, and controlled open state. Body content comes from children.",
       },
       source: {
         type: "code",
@@ -21,16 +29,19 @@ const meta = {
   },
   args: {
     open: false,
-    size: "medium",
+    title: "Delete project",
+    closable: true,
     divider: false,
+    size: "medium",
+    footer,
     onOpenChange: () => undefined,
-    children: null,
+    children: "This action cannot be undone.",
   },
   argTypes: {
     open: {
       control: "boolean",
       description:
-        "Controls whether the dialog is currently mounted and visible. Must be paired with `onOpenChange` to be dismissible by the user.",
+        "Controls whether the dialog is mounted and visible. In these stories it's driven by an internal demo toggle so the control and the 'Open dialog' button stay in sync — in real usage, pair it with your own state and `onOpenChange`.",
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "false" },
@@ -39,34 +50,59 @@ const meta = {
     onOpenChange: {
       control: false,
       description:
-        "Callback fired when the dialog requests to close (e.g. Escape key, backdrop click, or the header close button). Receives the next `open` value — typically used to update the state driving the `open` prop.",
+        "Callback fired when the dialog requests to close (Escape, backdrop click, or the header close button) or open. Receives the next boolean `open` value.",
       table: {
         type: { summary: "(open: boolean) => void" },
+      },
+    },
+    title: {
+      control: "text",
+      description:
+        "Plain text title rendered in the dialog header. Omit it to render the dialog without a title (the close button, if enabled, still appears).",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    closable: {
+      control: "boolean",
+      description:
+        "Shows or hides the header's close (×) button. Set to false to force dismissal only through explicit footer actions.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "true" },
+      },
+    },
+    divider: {
+      control: "boolean",
+      description:
+        "Renders a visible rule between the header and body when true. When false, they're separated only by spacing.",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
       },
     },
     size: {
       control: "radio",
       options: ["small", "medium", "large"],
       description:
-        "Sets the dialog's width. `small` suits brief confirmations, `medium` is the general-purpose default, and `large` fits forms or content-heavy dialogs.",
+        "Sets the dialog's width. `small` suits brief confirmations, `medium` is the general-purpose default, `large` fits forms or content-heavy dialogs.",
       table: {
         type: { summary: '"small" | "medium" | "large"' },
         defaultValue: { summary: '"medium"' },
       },
     },
-    divider: {
-      control: "boolean",
+    footer: {
+      control: false,
       description:
-        "When true, renders a visible rule between the header and body content. When false, header and body are separated only by spacing.",
+        "Optional footer content, typically action buttons (Cancel/Confirm). Omit it to render the dialog without a footer row.",
       table: {
-        type: { summary: "boolean" },
-        defaultValue: { summary: "false" },
+        type: { summary: "ReactNode" },
       },
     },
     children: {
-      control: false,
+      control: "text",
       description:
-        "The dialog's content, typically composed from `DialogHeader`, `DialogBody`, and `DialogFooter` subcomponents in that order.",
+        "The dialog's body content, rendered between the header and footer.",
       table: {
         type: { summary: "ReactNode" },
       },
@@ -78,101 +114,117 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-function Example({
-  title = "Delete project",
-  showTitle = true,
-  showClose = true,
-  divider = false,
-  size = "medium",
-}: {
+type ExampleProps = {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   title?: string;
-  showTitle?: boolean;
-  showClose?: boolean;
+  closable?: boolean;
   divider?: boolean;
   size?: "small" | "medium" | "large";
-}) {
-  const [open, setOpen] = useState(false);
+  footer?: ReactNode;
+  children?: ReactNode;
+};
+
+// Wraps Dialog with a demo trigger button, while keeping every prop
+// (including `open`) driven by the args Storybook passes in — so
+// controls actually affect what's rendered.
+function Example({
+  open: openArg = false,
+  onOpenChange,
+  title,
+  closable,
+  divider,
+  size,
+  footer: footerContent,
+  children,
+}: ExampleProps) {
+  const [open, setOpen] = useState(openArg);
+
+  // Keep in sync when the `open` control changes from outside
+  // (e.g. toggled in the Controls panel rather than via the button).
+  useEffect(() => {
+    setOpen(openArg);
+  }, [openArg]);
+
+  const handleOpenChange = (next: boolean) => {
+    setOpen(next);
+    onOpenChange?.(next);
+  };
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Open dialog</Button>
-      <Dialog open={open} onOpenChange={setOpen} size={size} divider={divider}>
-        {showTitle || showClose ? (
-          <DialogHeader
-            id="dialog-title"
-            title={showTitle ? title : undefined}
-            onClose={showClose ? () => setOpen(false) : undefined}
-          />
-        ) : null}
-        <DialogBody>This action cannot be undone.</DialogBody>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
-            Cancel
-          </Button>
-          <Button onClick={() => setOpen(false)}>Delete</Button>
-        </DialogFooter>
+      <Button onClick={() => handleOpenChange(true)}>Open dialog</Button>
+      <Dialog
+        open={open}
+        onOpenChange={handleOpenChange}
+        title={title}
+        closable={closable}
+        divider={divider}
+        size={size}
+        footer={footerContent}
+      >
+        {children}
       </Dialog>
     </>
   );
 }
 
-// Reusable snippet builder so each story's displayed code stays in sync
-// with what Example actually renders, without repeating boilerplate.
+// Builds the "Show code" snippet from the same args driving the story,
+// so it always reflects what's actually configured.
 function dialogSource({
-  size = "medium",
+  title,
+  closable = true,
   divider = false,
-  showTitle = true,
-  showClose = true,
-  title = "Delete project",
+  size = "medium",
+  footer: hasFooter,
+  children = "This action cannot be undone.",
 }: {
-  size?: "small" | "medium" | "large";
-  divider?: boolean;
-  showTitle?: boolean;
-  showClose?: boolean;
   title?: string;
+  closable?: boolean;
+  divider?: boolean;
+  size?: "small" | "medium" | "large";
+  footer?: ReactNode;
+  children?: ReactNode;
 }) {
-  const headerProps = [
-    showClose ? `onClose={() => setOpen(false)}` : null,
-    showTitle ? `title="${title}"` : null,
+  const props = [
+    title ? `title="${title}"` : null,
+    !closable ? `closable={false}` : null,
+    divider ? `divider` : null,
+    size !== "medium" ? `size="${size}"` : null,
   ]
     .filter(Boolean)
-    .join(" ");
+    .map((line) => `  ${line}`)
+    .join("\n");
 
-  const header =
-    showTitle || showClose
-      ? `  <DialogHeader id="dialog-title"${headerProps ? ` ${headerProps}` : ""} />\n`
-      : "";
+  const footerBlock = hasFooter
+    ? `  footer={
+    <>
+      <Button variant="outline">Cancel</Button>
+      <Button>Delete</Button>
+    </>
+  }\n`
+    : "";
 
   return `
-    <Dialog
-      open={open}
-      onOpenChange={setOpen}
-      size="${size}"
-      divider={${divider}}
-    >
-    ${header}  
-      <DialogBody>This action cannot be undone.</DialogBody>
-      <DialogFooter>
-        <Button variant="outline" onClick={() => setOpen(false)}>
-          Cancel
-        </Button>
-        <Button onClick={() => setOpen(false)}>Delete</Button>
-      </DialogFooter>
-  </Dialog>
+<Dialog
+  open={open}
+  onOpenChange={setOpen}
+${props ? props + "\n" : ""}${footerBlock}>
+  ${children}
+</Dialog>
   `.trim();
 }
 
 export const Default: Story = {
-  render: (args) => (
-    <Example
-      size={args.size as "small" | "medium" | "large"}
-      divider={args.divider}
-    />
-  ),
+  render: (args) => <Example {...args} />,
   parameters: {
     docs: {
+      description: {
+        story:
+          "Baseline configuration: medium size, title and close button visible, footer with Cancel/Delete actions, no divider.",
+      },
       source: {
-        code: dialogSource({}),
+        code: dialogSource({ title: "Delete project", footer }),
         language: "tsx",
       },
     },
@@ -180,11 +232,15 @@ export const Default: Story = {
 };
 
 export const Small: Story = {
-  render: () => <Example size="small" />,
+  args: { size: "small" },
+  render: (args) => <Example {...args} />,
   parameters: {
     docs: {
+      description: {
+        story: "Compact width for short, low-stakes confirmations.",
+      },
       source: {
-        code: dialogSource({ size: "small" }),
+        code: dialogSource({ title: "Delete project", size: "small", footer }),
         language: "tsx",
       },
     },
@@ -192,35 +248,15 @@ export const Small: Story = {
 };
 
 export const Large: Story = {
-  render: () => <Example size="large" />,
+  args: { size: "large" },
+  render: (args) => <Example {...args} />,
   parameters: {
     docs: {
-      source: {
-        code: dialogSource({ size: "large" }),
-        language: "tsx",
+      description: {
+        story: "Wider layout for forms or content-heavy dialogs.",
       },
-    },
-  },
-};
-
-export const WithoutDivider: Story = {
-  render: () => <Example divider={false} />,
-  parameters: {
-    docs: {
       source: {
-        code: dialogSource({ divider: false }),
-        language: "tsx",
-      },
-    },
-  },
-};
-
-export const WithDivider: Story = {
-  render: () => <Example divider />,
-  parameters: {
-    docs: {
-      source: {
-        code: dialogSource({ divider: true }),
+        code: dialogSource({ title: "Delete project", size: "large", footer }),
         language: "tsx",
       },
     },
@@ -228,11 +264,16 @@ export const WithDivider: Story = {
 };
 
 export const WithoutTitle: Story = {
-  render: () => <Example showTitle={false} />,
+  args: { title: undefined },
+  render: (args) => <Example {...args} />,
   parameters: {
     docs: {
+      description: {
+        story:
+          "Omits the title while still rendering the close button — useful for minimal or icon-led dialogs.",
+      },
       source: {
-        code: dialogSource({ showTitle: false }),
+        code: dialogSource({ footer }),
         language: "tsx",
       },
     },
@@ -240,11 +281,50 @@ export const WithoutTitle: Story = {
 };
 
 export const WithoutCloseButton: Story = {
-  render: () => <Example showClose={false} />,
+  args: { closable: false },
+  render: (args) => <Example {...args} />,
   parameters: {
     docs: {
+      description: {
+        story:
+          "Hides the close (×) button, forcing dismissal only through explicit footer actions.",
+      },
       source: {
-        code: dialogSource({ showClose: false }),
+        code: dialogSource({ title: "Delete project", closable: false, footer }),
+        language: "tsx",
+      },
+    },
+  },
+};
+
+export const WithDivider: Story = {
+  args: { divider: true },
+  render: (args) => <Example {...args} />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Adds a visible divider between the header and body for stronger visual separation.",
+      },
+      source: {
+        code: dialogSource({ title: "Delete project", divider: true, footer }),
+        language: "tsx",
+      },
+    },
+  },
+};
+
+export const WithoutFooter: Story = {
+  args: { footer: undefined },
+  render: (args) => <Example {...args} />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Renders without a footer row — useful for purely informational dialogs with no action buttons.",
+      },
+      source: {
+        code: dialogSource({ title: "Delete project" }),
         language: "tsx",
       },
     },

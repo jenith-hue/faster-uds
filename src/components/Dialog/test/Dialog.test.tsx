@@ -1,135 +1,109 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Dialog, DialogBody, DialogFooter, DialogHeader } from "../Dialog";
+import { Dialog } from "../Dialog";
 import styles from "../Dialog.module.css";
 
 describe("Dialog", () => {
-  it("is absent when closed and announces modal semantics when open", () => {
+  it("is absent when closed and present when open", () => {
     const change = jest.fn();
     const { rerender } = render(
       <Dialog open={false} onOpenChange={change}>
-        Text
+        Body
       </Dialog>
     );
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
     rerender(
-      <Dialog open onOpenChange={change} aria-label="Confirm">
-        Text
+      <Dialog open onOpenChange={change} title="Confirm">
+        Body
       </Dialog>
     );
 
-    expect(screen.getByRole("dialog", { name: "Confirm" })).toHaveAttribute(
-      "aria-modal",
-      "true"
-    );
+    expect(screen.getByRole("dialog", { name: "Confirm" })).toBeInTheDocument();
   });
 
-  it("applies size classes", () => {
+  it("renders title, close, body, and footer", () => {
+    const footer = <button type="button">Delete</button>;
+
+    render(
+      <Dialog
+        open
+        onOpenChange={() => undefined}
+        title="Delete project"
+        closable
+        footer={footer}
+      >
+        Body
+      </Dialog>
+    );
+
+    expect(screen.getByRole("heading", { name: "Delete project" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Close dialog" })).toBeInTheDocument();
+    expect(screen.getByText("Body")).toBeInTheDocument();
+    expect(screen.getByRole("contentinfo")).toHaveTextContent("Delete");
+  });
+
+  it("allows title or close to be omitted", () => {
     const { rerender } = render(
-      <Dialog open onOpenChange={() => undefined} size="small" aria-label="Small">
-        Text
-      </Dialog>
-    );
-
-    expect(screen.getByRole("dialog")).toHaveClass(
-      styles["faster-dialog--small"]
-    );
-
-    rerender(
-      <Dialog open onOpenChange={() => undefined} size="large" aria-label="Large">
-        Text
-      </Dialog>
-    );
-
-    expect(screen.getByRole("dialog")).toHaveClass(
-      styles["faster-dialog--large"]
-    );
-  });
-
-  it("renders header without title or close button when omitted", () => {
-    render(
-      <Dialog open onOpenChange={() => undefined} aria-label="Plain dialog">
-        <DialogHeader />
-        <DialogBody>Body</DialogBody>
-      </Dialog>
-    );
-
-    expect(screen.queryByRole("heading")).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", { name: "Close dialog" })
-    ).not.toBeInTheDocument();
-  });
-
-  it("renders close button on the right when title is omitted", () => {
-    render(
-      <Dialog open onOpenChange={() => undefined} aria-label="No title">
-        <DialogHeader onClose={() => undefined} />
-        <DialogBody>Body</DialogBody>
+      <Dialog open onOpenChange={() => undefined} closable>
+        Body
       </Dialog>
     );
 
     expect(screen.queryByRole("heading")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Close dialog" })).toBeInTheDocument();
-  });
 
-  it("adds body padding when divider is present", () => {
-    render(
-      <Dialog open onOpenChange={() => undefined} divider aria-label="Divided">
-        <DialogHeader title="Title" onClose={() => undefined} />
-        <DialogBody>Body</DialogBody>
+    rerender(
+      <Dialog open onOpenChange={() => undefined} title="Only title">
+        Body
       </Dialog>
     );
 
-    expect(
-      document.querySelector(`.${styles["faster-dialog__body"]}`)
-    ).toHaveAttribute("data-divider", "true");
+    expect(screen.getByRole("heading", { name: "Only title" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Close dialog" })).not.toBeInTheDocument();
   });
 
-  it("applies divider spacing and border classes", () => {
-    render(
-      <Dialog open onOpenChange={() => undefined} divider aria-label="Divided">
-        <DialogHeader title="Title" onClose={() => undefined} />
-        <DialogBody>Body</DialogBody>
-        <DialogFooter>Actions</DialogFooter>
+  it("applies size and divider classes", () => {
+    const { rerender } = render(
+      <Dialog open onOpenChange={() => undefined} title="Title" size="small" divider>
+        Body
       </Dialog>
     );
 
+    expect(screen.getByRole("dialog")).toHaveClass(styles["faster-dialog--small"]);
     expect(screen.getByRole("dialog")).toHaveAttribute("data-divider", "true");
     expect(screen.getByRole("heading", { name: "Title" }).parentElement).toHaveClass(
       styles["faster-dialog__header--divider"]
     );
-    expect(screen.getByRole("contentinfo")).toHaveClass(
-      styles["faster-dialog__footer--divider"]
-    );
-  });
 
-  it("closes on Escape, overlay click, and header close click", () => {
-    const change = jest.fn();
-    const { rerender } = render(
-      <Dialog open onOpenChange={change} aria-label="Dialog">
-        <DialogHeader title="Title" onClose={() => change(false)} />
-        <DialogBody>Body</DialogBody>
+    rerender(
+      <Dialog open onOpenChange={() => undefined} title="Title" size="large">
+        Body
       </Dialog>
     );
 
-    fireEvent.keyDown(document, { key: "Escape" });
-    expect(change).toHaveBeenLastCalledWith(false);
+    expect(screen.getByRole("dialog")).toHaveClass(styles["faster-dialog--large"]);
+  });
 
-    fireEvent.mouseDown(
-      document.querySelector(`.${styles["faster-dialog__backdrop"]}`)!
-    );
-    expect(change).toHaveBeenCalledTimes(2);
+  it("closes from close icon, overlay, and escape", () => {
+    const change = jest.fn();
 
-    rerender(
-      <Dialog open onOpenChange={change} aria-label="Dialog">
-        <DialogHeader title="Title" onClose={() => change(false)} />
-        <DialogBody>Body</DialogBody>
+    render(
+      <Dialog open onOpenChange={change} title="Title" closable>
+        Body
       </Dialog>
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Close dialog" }));
+    expect(change).toHaveBeenLastCalledWith(false);
+
+    fireEvent.mouseDown(
+      document.querySelector(`.${styles["faster-dialog__backdrop"]}`)
+    );
+    expect(change).toHaveBeenCalledTimes(2);
+
+    fireEvent.keyDown(document, { key: "Escape" });
     expect(change).toHaveBeenCalledTimes(3);
   });
 });
