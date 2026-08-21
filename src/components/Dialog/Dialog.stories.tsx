@@ -143,6 +143,7 @@ function Example({
   // Keep in sync when the `open` control changes from outside
   // (e.g. toggled in the Controls panel rather than via the button).
   useEffect(() => {
+    // eslint-disable-next-line
     setOpen(openArg);
   }, [openArg]);
 
