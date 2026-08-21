@@ -1,12 +1,39 @@
 import styles from "./Button.module.css";
-import type { ButtonIconPosition, ButtonProps } from "./Button.types";
-
-export type {
+import type {
+  ButtonCategory,
+  ButtonIconOnlyShape,
   ButtonIconPosition,
   ButtonProps,
   ButtonSize,
   ButtonVariant,
 } from "./Button.types";
+
+export type {
+  ButtonCategory,
+  ButtonIconOnlyShape,
+  ButtonIconPosition,
+  ButtonProps,
+  ButtonSize,
+  ButtonVariant,
+} from "./Button.types";
+
+function getButtonClassName(
+  base: string,
+  category: ButtonCategory,
+  variant: ButtonVariant,
+  size: ButtonSize,
+  iconOnlyShape?: ButtonIconOnlyShape,
+) {
+  return [
+    styles[base],
+    styles[`faster-button--${category}`],
+    styles[`faster-button--${variant}`],
+    styles[`faster-button--${size}`],
+    iconOnlyShape ? styles[`faster-button--icon-${iconOnlyShape}`] : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
 
 function getIconPositionClass(position: ButtonIconPosition) {
   return position === "end"
@@ -15,11 +42,13 @@ function getIconPositionClass(position: ButtonIconPosition) {
 }
 
 export function Button({
+  category = "normal",
   variant = "primary",
-  size = "md",
+  size = "medium",
   loading = false,
   icon,
   iconPosition = "start",
+  iconOnlyShape = "square",
   fullWidth = false,
   className = "",
   type = "button",
@@ -30,14 +59,17 @@ export function Button({
   ...props
 }: ButtonProps) {
   const isDisabled = disabled || loading;
-  const isIconOnly = Boolean(icon) && !children;
+  const isIconOnly = children === null || children === undefined;
   const busy = loading || ariaBusy;
   const classes = [
-    styles["faster-button"],
-    styles[`faster-button--${variant}`],
-    styles[`faster-button--${size}`],
+    getButtonClassName(
+      "faster-button",
+      category,
+      variant,
+      size,
+      isIconOnly ? iconOnlyShape : undefined,
+    ),
     fullWidth ? styles["faster-button--full-width"] : "",
-    isIconOnly ? styles["faster-button--icon-only"] : "",
     className,
   ]
     .filter(Boolean)
@@ -47,23 +79,27 @@ export function Button({
     <>
       {loading ? (
         <span className={styles["faster-button__spinner"]} aria-hidden="true" />
+      ) : isIconOnly ? (
+        <span className={styles["faster-button__icon"]} aria-hidden="true">
+          {icon}
+        </span>
       ) : icon && iconPosition === "start" ? (
         <span
           className={`${styles["faster-button__icon"]} ${getIconPositionClass(
-            iconPosition
+            iconPosition,
           )}`}
           aria-hidden="true"
         >
           {icon}
         </span>
       ) : null}
-      {children ? (
+      {!isIconOnly && children !== null && children !== undefined ? (
         <span className={styles["faster-button__label"]}>{children}</span>
       ) : null}
-      {!loading && icon && iconPosition === "end" ? (
+      {!loading && !isIconOnly && icon && iconPosition === "end" ? (
         <span
           className={`${styles["faster-button__icon"]} ${getIconPositionClass(
-            iconPosition
+            iconPosition,
           )}`}
           aria-hidden="true"
         >

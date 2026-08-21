@@ -1,1 +1,11 @@
-module.exports = { testEnvironment: 'jsdom', transform: { '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.jest.json', diagnostics: false }] }, moduleNameMapper: { '\\.(css)$': 'identity-obj-proxy' }, testMatch: ['<rootDir>/src/**/*.test.ts?(x)'] };
+module.exports = {
+  testEnvironment: "jsdom",
+  transform: {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      { tsconfig: "tsconfig.jest.json", diagnostics: false },
+    ],
+  },
+  moduleNameMapper: { "\\.(css)$": "identity-obj-proxy" },
+  testMatch: ["<rootDir>/src/**/*.test.ts?(x)"],
+};

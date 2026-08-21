@@ -19,8 +19,8 @@ export default function App() {
         design system.
       </p>
       <div className="demo-actions">
-        <Button onClick={() => setOpen(true)}>Open dialog</Button>
-        <Button variant="secondary">Secondary action</Button>
+        <Button onClick={() => setOpen(true)}>Test</Button>
+        <Button variant="outline">Secondary action</Button>
       </div>
       <div className="demo-input">
         <Input
@@ -44,7 +44,7 @@ export default function App() {
           on top.
         </DialogBody>
         <DialogFooter>
-          <Button variant="secondary" onClick={() => setOpen(false)}>
+          <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
           <Button onClick={() => setOpen(false)}>Continue</Button>

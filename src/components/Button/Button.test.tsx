@@ -5,10 +5,24 @@ import styles from "./Button.module.css";
 
 describe("Button", () => {
   it("renders every supported variant", () => {
-    for (const variant of ["primary", "secondary", "ghost"] as const) {
-      const { unmount } = render(<Button variant={variant}>Save</Button>);
+    const cases = [
+      { category: "normal", variant: "primary" },
+      { category: "normal", variant: "outline" },
+      { category: "normal", variant: "ghost" },
+      { category: "normal", variant: "link" },
+      { category: "danger", variant: "primary" },
+      { category: "danger", variant: "outline" },
+      { category: "danger", variant: "ghost" },
+      { category: "danger", variant: "link" },
+    ] as const;
+
+    for (const testCase of cases) {
+      const { unmount } = render(
+        <Button {...testCase}>Save</Button>
+      );
       expect(screen.getByRole("button")).toHaveClass(
-        styles[`faster-button--${variant}`]
+        styles[`faster-button--${testCase.category}`],
+        styles[`faster-button--${testCase.variant}`]
       );
       unmount();
     }
@@ -16,19 +30,19 @@ describe("Button", () => {
 
   it("applies size and layout modifiers", () => {
     const { rerender } = render(
-      <Button size="sm" fullWidth>
+      <Button size="small" fullWidth>
         Save
       </Button>
     );
 
     expect(screen.getByRole("button")).toHaveClass(
-      styles["faster-button--sm"],
+      styles["faster-button--small"],
       styles["faster-button--full-width"]
     );
 
-    rerender(<Button size="lg">Save</Button>);
+    rerender(<Button size="large">Save</Button>);
 
-    expect(screen.getByRole("button")).toHaveClass(styles["faster-button--lg"]);
+    expect(screen.getByRole("button")).toHaveClass(styles["faster-button--large"]);
   });
 
   it("renders icons in the requested position", () => {
@@ -56,6 +70,18 @@ describe("Button", () => {
     expect(endButton.lastElementChild).toHaveClass(
       styles["faster-button__icon"]
     );
+  });
+
+  it("renders icon only buttons", () => {
+    const icon = <span data-testid="icon">+</span>;
+
+    render(
+      <Button aria-label="Add item" icon={icon} iconOnlyShape="round" />
+    );
+
+    const button = screen.getByRole("button", { name: "Add item" });
+    expect(button).toHaveClass(styles["faster-button--icon-round"]);
+    expect(button.firstElementChild).toHaveClass(styles["faster-button__icon"]);
   });
 
   it("fires click and prevents disabled or loading interaction", () => {
