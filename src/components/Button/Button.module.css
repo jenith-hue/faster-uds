@@ -19,7 +19,8 @@
     border-color 150ms ease,
     color 150ms ease,
     opacity 150ms ease,
-    transform 150ms ease;
+    transform 150ms ease,
+    filter 150ms ease;
 }
 
 .faster-button:focus-visible {
@@ -56,6 +57,7 @@
 .faster-button--large.faster-button--icon-round {
   min-inline-size: 40px;
   inline-size: 40px;
+  min-height: 40px;
   padding: 0;
 }
 
@@ -63,6 +65,7 @@
 .faster-button--medium.faster-button--icon-round {
   min-inline-size: 36px;
   inline-size: 36px;
+  min-height: 36px;
   padding: 0;
 }
 
@@ -70,6 +73,7 @@
 .faster-button--small.faster-button--icon-round {
   min-inline-size: 24px;
   inline-size: 24px;
+  min-height: 24px;
   padding: 0;
 }
 
@@ -146,8 +150,20 @@
   color: var(--faster-color-danger-500);
 }
 
-.faster-button:not(:disabled):where(.faster-button--outline, .faster-button--ghost, .faster-button--link):hover {
+.faster-button:not(:disabled):where(.faster-button--outline, .faster-button--link):hover {
   filter: brightness(0.96);
+}
+
+/* Icon-only buttons go a bit dull on hover (ghost is handled separately below). */
+.faster-button--icon-square:not(.faster-button--ghost):not(:disabled):hover,
+.faster-button--icon-round:not(.faster-button--ghost):not(:disabled):hover {
+  filter: brightness(0.92);
+}
+
+/* Ghost variant: show a subtle background on hover and while pressed (active). */
+.faster-button--ghost:not(:disabled):hover,
+.faster-button--ghost:not(:disabled):active {
+  background: color-mix(in srgb, currentColor 20%, transparent 80%);
 }
 
 @keyframes faster-button-spin {
