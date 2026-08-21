@@ -14,7 +14,7 @@ import {
   SIZE_MEDIUM,
 } from "../../const";
 
-export type { InputProps } from "./Input.types";
+// export type { InputProps } from "./Input.types";
 
 export function Input({
   id,

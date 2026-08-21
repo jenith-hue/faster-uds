@@ -17,14 +17,14 @@ import type {
   ButtonVariant,
 } from "./Button.types";
 
-export type {
-  ButtonCategory,
-  ButtonIconOnlyShape,
-  ButtonIconPosition,
-  ButtonProps,
-  ButtonSize,
-  ButtonVariant,
-} from "./Button.types";
+// export type {
+//   ButtonCategory,
+//   ButtonIconOnlyShape,
+//   ButtonIconPosition,
+//   ButtonProps,
+//   ButtonSize,
+//   ButtonVariant,
+// } from "./Button.types";
 
 function getButtonClassName(
   base: string,

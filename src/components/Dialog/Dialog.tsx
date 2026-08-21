@@ -18,12 +18,12 @@ import type {
   DialogSize,
 } from "./Dialog.types";
 
-export type {
-  DialogContentProps,
-  DialogHeaderProps,
-  DialogProps,
-  DialogSize,
-} from "./Dialog.types";
+// export type {
+//   DialogContentProps,
+//   DialogHeaderProps,
+//   DialogProps,
+//   DialogSize,
+// } from "./Dialog.types";
 
 type DialogContextValue = {
   divider: boolean;
