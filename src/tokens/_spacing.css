@@ -5,7 +5,11 @@
   --faster-space-4: 1rem;
   --faster-space-5: 1.25rem;
   --faster-space-6: 1.5rem;
+  --faster-space-8: 2rem;
   --faster-radius-sm: 0.375rem;
   --faster-radius-md: 0.5rem;
   --faster-radius-lg: 0.75rem;
+  --faster-modal-small-width: 400px;
+  --faster-modal-medium-width: 600px;
+  --faster-modal-large-width: 900px;
 }

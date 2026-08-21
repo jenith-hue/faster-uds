@@ -1,22 +1,34 @@
 import { useId } from "react";
 import styles from "./Input.module.css";
 import type { InputProps } from "./Input.types";
+import {
+  ICON_POSITION_END,
+  ICON_POSITION_START,
+  INPUT_ARIA_LIVE_POLITE,
+  INPUT_CLEAR_ICON,
+  INPUT_CLEAR_LABEL,
+  INPUT_INPUT_MODE_DECIMAL,
+  INPUT_ROLE_ALERT,
+  INPUT_TYPE_CURRENCY,
+  INPUT_TYPE_TEXT,
+  SIZE_MEDIUM,
+} from "../../const";
 
-export type { InputProps } from "./Input.types";
+// export type { InputProps } from "./Input.types";
 
 export function Input({
   id,
   label,
   helperText,
   error,
-  size = "medium",
-  type = "text",
+  size = SIZE_MEDIUM,
+  type = INPUT_TYPE_TEXT,
   icon,
-  iconPosition = "start",
+  iconPosition = ICON_POSITION_START,
   prefix,
   suffix,
   clearable = false,
-  clearAriaLabel = "Clear input",
+  clearAriaLabel = INPUT_CLEAR_LABEL,
   onClear,
   required,
   className = "",
@@ -30,10 +42,10 @@ export function Input({
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const hintId = `${inputId}-hint`;
-  const inputType = type === "currency" ? "text" : type;
+  const inputType = type === INPUT_TYPE_CURRENCY ? INPUT_TYPE_TEXT : type;
   const inputMode =
-    type === "currency" && props.inputMode == null
-      ? "decimal"
+    type === INPUT_TYPE_CURRENCY && props.inputMode == null
+      ? INPUT_INPUT_MODE_DECIMAL
       : props.inputMode;
   const message = error ?? helperText;
   const hasValue =
@@ -74,7 +86,7 @@ export function Input({
             {prefix}
           </span>
         ) : null}
-        {icon && iconPosition === "start" ? (
+        {icon && iconPosition === ICON_POSITION_START ? (
           <span className={styles["faster-input__icon"]} aria-hidden="true">
             {icon}
           </span>
@@ -93,7 +105,7 @@ export function Input({
           readOnly={readOnly}
           {...props}
         />
-        {icon && iconPosition === "end" ? (
+        {icon && iconPosition === ICON_POSITION_END ? (
           <span className={styles["faster-input__icon"]} aria-hidden="true">
             {icon}
           </span>
@@ -105,7 +117,7 @@ export function Input({
             aria-label={clearAriaLabel}
             onClick={onClear}
           >
-            ×
+            {INPUT_CLEAR_ICON}
           </button>
         ) : null}
         {suffix ? (
@@ -117,6 +129,8 @@ export function Input({
       {message && (
         <p
           id={hintId}
+          role={error ? INPUT_ROLE_ALERT : undefined}
+          aria-live={error ? INPUT_ARIA_LIVE_POLITE : undefined}
           className={`${styles["faster-input__hint"]} ${
             error ? styles["faster-input__error"] : ""
           }`}

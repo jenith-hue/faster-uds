@@ -24,19 +24,19 @@
 
 .faster-input__field--large {
   min-height: 40px;
-  padding-inline: 12px;
+  padding-inline: var(--faster-space-3);
   gap: var(--faster-space-2);
 }
 
 .faster-input__field--medium {
   min-height: 36px;
-  padding-inline: 12px;
+  padding-inline: var(--faster-space-3);
   gap: var(--faster-space-2);
 }
 
 .faster-input__field--small {
   min-height: 24px;
-  padding-inline: 8px;
+  padding-inline: var(--faster-space-2);
   gap: var(--faster-space-1);
 }
 

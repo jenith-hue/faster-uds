@@ -1,26 +1,24 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Dialog.module.css";
-import type {
-  DialogContentProps,
-  DialogHeaderProps,
-  DialogProps,
-} from "./Dialog.types";
+import type { DialogProps } from "./Dialog.types";
 
-export type {
-  DialogContentProps,
-  DialogHeaderProps,
-  DialogProps,
-} from "./Dialog.types";
+// export type { DialogProps } from "./Dialog.types";
 
 export function Dialog({
   open,
   onOpenChange,
+  title,
+  closable = false,
+  footer,
+  divider = false,
+  size = "medium",
   children,
   ...props
 }: DialogProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
+  const titleId = useId();
 
   useEffect(() => {
     if (!open) return;
@@ -42,6 +40,8 @@ export function Dialog({
 
   if (!open) return null;
 
+  const showHeader = Boolean(title) || closable;
+
   return createPortal(
     <div
       className={styles["faster-dialog__backdrop"]}
@@ -51,43 +51,58 @@ export function Dialog({
     >
       <div
         ref={dialogRef}
-        className={styles["faster-dialog"]}
+        className={`${styles["faster-dialog"]} ${styles[`faster-dialog--${size}`]}`}
         role="dialog"
         aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
         tabIndex={-1}
+        data-divider={divider ? "true" : "false"}
         {...props}
       >
-        {children}
+        {showHeader ? (
+          <header
+            className={`${styles["faster-dialog__header"]} ${
+              divider ? styles["faster-dialog__header--divider"] : ""
+            }`}
+            data-divider={divider ? "true" : "false"}
+          >
+            {title ? (
+              <h2 id={titleId} className={styles["faster-dialog__title"]}>
+                {title}
+              </h2>
+            ) : (
+              <span />
+            )}
+            {closable ? (
+              <button
+                className={styles["faster-dialog__close"]}
+                type="button"
+                aria-label="Close dialog"
+                onClick={() => onOpenChange(false)}
+              >
+                ×
+              </button>
+            ) : null}
+          </header>
+        ) : null}
+        <div
+          className={styles["faster-dialog__body"]}
+          data-divider={divider ? "true" : "false"}
+        >
+          {children}
+        </div>
+        {footer ? (
+          <footer
+            className={`${styles["faster-dialog__footer"]} ${
+              divider ? styles["faster-dialog__footer--divider"] : ""
+            }`}
+            data-divider={divider ? "true" : "false"}
+          >
+            {footer}
+          </footer>
+        ) : null}
       </div>
     </div>,
     document.body,
   );
-}
-
-export function DialogHeader({ title, id, onClose }: DialogHeaderProps) {
-  return (
-    <header className={styles["faster-dialog__header"]}>
-      <h2 id={id} className={styles["faster-dialog__title"]}>
-        {title}
-      </h2>
-      {onClose && (
-        <button
-          className={styles["faster-dialog__close"]}
-          type="button"
-          aria-label="Close dialog"
-          onClick={onClose}
-        >
-          ×
-        </button>
-      )}
-    </header>
-  );
-}
-
-export function DialogBody({ children }: DialogContentProps) {
-  return <div className={styles["faster-dialog__body"]}>{children}</div>;
-}
-
-export function DialogFooter({ children }: DialogContentProps) {
-  return <footer className={styles["faster-dialog__footer"]}>{children}</footer>;
 }

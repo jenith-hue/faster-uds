@@ -1,10 +1,14 @@
 import type { HTMLAttributes, ReactNode } from "react";
 
-export type DialogProps = Omit<HTMLAttributes<HTMLDivElement>, "title"> & {
+export type DialogSize = "small" | "medium" | "large";
+
+export type DialogProps = Omit<HTMLAttributes<HTMLDivElement>, "title" | "children"> & {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  title?: string;
+  closable?: boolean;
+  footer?: ReactNode;
+  divider?: boolean;
+  size?: DialogSize;
   children: ReactNode;
 };
-
-export type DialogHeaderProps = { title: string; id?: string; onClose?: () => void };
-export type DialogContentProps = { children: ReactNode };

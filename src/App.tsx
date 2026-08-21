@@ -2,9 +2,6 @@ import { useState } from "react";
 import {
   Button,
   Dialog,
-  DialogBody,
-  DialogFooter,
-  DialogHeader,
   Input,
 } from "./index";
 
@@ -32,23 +29,19 @@ export default function App() {
       <Dialog
         open={open}
         onOpenChange={setOpen}
-        aria-labelledby="demo-dialog-title"
+        title="Welcome to Faster"
+        closable
+        footer={
+          <>
+            <Button variant="outline" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setOpen(false)}>Continue</Button>
+          </>
+        }
       >
-        <DialogHeader
-          title="Welcome to Faster"
-          id="demo-dialog-title"
-          onClose={() => setOpen(false)}
-        />
-        <DialogBody>
-          Start with these primitives, then layer your product visual language
-          on top.
-        </DialogBody>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
-            Cancel
-          </Button>
-          <Button onClick={() => setOpen(false)}>Continue</Button>
-        </DialogFooter>
+        Start with these primitives, then layer your product visual language
+        on top.
       </Dialog>
     </main>
   );
