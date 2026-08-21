@@ -1,4 +1,13 @@
 import styles from "./Button.module.css";
+import {
+  BUTTON_CATEGORY_NORMAL,
+  BUTTON_ICON_ONLY_SHAPE_SQUARE,
+  BUTTON_TYPE_BUTTON,
+  BUTTON_VARIANT_PRIMARY,
+  ICON_POSITION_END,
+  ICON_POSITION_START,
+  SIZE_MEDIUM,
+} from "../../const";
 import type {
   ButtonCategory,
   ButtonIconOnlyShape,
@@ -36,22 +45,22 @@ function getButtonClassName(
 }
 
 function getIconPositionClass(position: ButtonIconPosition) {
-  return position === "end"
+  return position === ICON_POSITION_END
     ? styles["faster-button__icon--end"]
     : styles["faster-button__icon--start"];
 }
 
 export function Button({
-  category = "normal",
-  variant = "primary",
-  size = "medium",
+  category = BUTTON_CATEGORY_NORMAL,
+  variant = BUTTON_VARIANT_PRIMARY,
+  size = SIZE_MEDIUM,
   loading = false,
   icon,
-  iconPosition = "start",
-  iconOnlyShape = "square",
+  iconPosition = ICON_POSITION_START,
+  iconOnlyShape = BUTTON_ICON_ONLY_SHAPE_SQUARE,
   fullWidth = false,
   className = "",
-  type = "button",
+  type = BUTTON_TYPE_BUTTON,
   disabled = false,
   children,
   "aria-busy": ariaBusy,
@@ -83,7 +92,7 @@ export function Button({
         <span className={styles["faster-button__icon"]} aria-hidden="true">
           {icon}
         </span>
-      ) : icon && iconPosition === "start" ? (
+      ) : icon && iconPosition === ICON_POSITION_START ? (
         <span
           className={`${styles["faster-button__icon"]} ${getIconPositionClass(
             iconPosition,
@@ -96,7 +105,7 @@ export function Button({
       {!isIconOnly && children !== null && children !== undefined ? (
         <span className={styles["faster-button__label"]}>{children}</span>
       ) : null}
-      {!loading && !isIconOnly && icon && iconPosition === "end" ? (
+      {!loading && !isIconOnly && icon && iconPosition === ICON_POSITION_END ? (
         <span
           className={`${styles["faster-button__icon"]} ${getIconPositionClass(
             iconPosition,

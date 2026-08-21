@@ -1,6 +1,16 @@
 import { createContext, useContext, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Dialog.module.css";
+import {
+  BUTTON_TYPE_BUTTON,
+  DATA_FALSE,
+  DATA_TRUE,
+  DIALOG_ARIA_MODAL,
+  DIALOG_CLOSE_ICON,
+  DIALOG_CLOSE_LABEL,
+  DIALOG_ROLE,
+  SIZE_MEDIUM,
+} from "../../const";
 import type {
   DialogContentProps,
   DialogHeaderProps,
@@ -22,7 +32,7 @@ type DialogContextValue = {
 
 const DialogContext = createContext<DialogContextValue>({
   divider: false,
-  size: "medium",
+  size: SIZE_MEDIUM,
 });
 
 function useDialogContext() {
@@ -32,7 +42,7 @@ function useDialogContext() {
 export function Dialog({
   open,
   onOpenChange,
-  size = "medium",
+  size = SIZE_MEDIUM,
   divider = false,
   children,
   ...props
@@ -71,10 +81,10 @@ export function Dialog({
         <div
           ref={dialogRef}
           className={`${styles["faster-dialog"]} ${styles[`faster-dialog--${size}`]}`}
-          role="dialog"
-          aria-modal="true"
+          role={DIALOG_ROLE}
+          aria-modal={DIALOG_ARIA_MODAL}
           tabIndex={-1}
-          data-divider={divider ? "true" : "false"}
+          data-divider={divider ? DATA_TRUE : DATA_FALSE}
           {...props}
         >
           {children}
@@ -97,21 +107,21 @@ export function DialogHeader({ title, id, onClose }: DialogHeaderProps) {
       className={`${styles["faster-dialog__header"]} ${
         divider ? styles["faster-dialog__header--divider"] : ""
       }`}
-      data-divider={divider ? "true" : "false"}
+      data-divider={divider ? DATA_TRUE : DATA_FALSE}
     >
       {hasTitle ? (
-        <span id={id} className={styles["faster-dialog__title"]}>
+        <h2 id={id} className={styles["faster-dialog__title"]}>
           {title}
-        </span>
+        </h2>
       ) : null}
       {hasClose ? (
         <button
           className={styles["faster-dialog__close"]}
-          type="button"
-          aria-label="Close dialog"
+          type={BUTTON_TYPE_BUTTON}
+          aria-label={DIALOG_CLOSE_LABEL}
           onClick={onClose}
         >
-          ×
+          {DIALOG_CLOSE_ICON}
         </button>
       ) : null}
     </header>
@@ -124,7 +134,7 @@ export function DialogBody({ children }: DialogContentProps) {
   return (
     <div
       className={styles["faster-dialog__body"]}
-      data-divider={divider ? "true" : "false"}
+      data-divider={divider ? DATA_TRUE : DATA_FALSE}
     >
       {children}
     </div>
@@ -139,7 +149,7 @@ export function DialogFooter({ children }: DialogContentProps) {
       className={`${styles["faster-dialog__footer"]} ${
         divider ? styles["faster-dialog__footer--divider"] : ""
       }`}
-      data-divider={divider ? "true" : "false"}
+      data-divider={divider ? DATA_TRUE : DATA_FALSE}
     >
       {children}
     </footer>
