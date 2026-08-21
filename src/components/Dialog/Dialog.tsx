@@ -1,21 +1,39 @@
-import { useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Dialog.module.css";
 import type {
   DialogContentProps,
   DialogHeaderProps,
   DialogProps,
+  DialogSize,
 } from "./Dialog.types";
 
 export type {
   DialogContentProps,
   DialogHeaderProps,
   DialogProps,
+  DialogSize,
 } from "./Dialog.types";
+
+type DialogContextValue = {
+  divider: boolean;
+  size: DialogSize;
+};
+
+const DialogContext = createContext<DialogContextValue>({
+  divider: false,
+  size: "medium",
+});
+
+function useDialogContext() {
+  return useContext(DialogContext);
+}
 
 export function Dialog({
   open,
   onOpenChange,
+  size = "medium",
+  divider = false,
   children,
   ...props
 }: DialogProps) {
@@ -49,28 +67,44 @@ export function Dialog({
         if (event.target === event.currentTarget) onOpenChange(false);
       }}
     >
-      <div
-        ref={dialogRef}
-        className={styles["faster-dialog"]}
-        role="dialog"
-        aria-modal="true"
-        tabIndex={-1}
-        {...props}
-      >
-        {children}
-      </div>
+      <DialogContext.Provider value={{ divider, size }}>
+        <div
+          ref={dialogRef}
+          className={`${styles["faster-dialog"]} ${styles[`faster-dialog--${size}`]}`}
+          role="dialog"
+          aria-modal="true"
+          tabIndex={-1}
+          data-divider={divider ? "true" : "false"}
+          {...props}
+        >
+          {children}
+        </div>
+      </DialogContext.Provider>
     </div>,
     document.body,
   );
 }
 
 export function DialogHeader({ title, id, onClose }: DialogHeaderProps) {
+  const { divider } = useDialogContext();
+  const hasTitle = title !== null && title !== undefined && title !== "";
+  const hasClose = Boolean(onClose);
+
+  if (!hasTitle && !hasClose) return null;
+
   return (
-    <header className={styles["faster-dialog__header"]}>
-      <h2 id={id} className={styles["faster-dialog__title"]}>
-        {title}
-      </h2>
-      {onClose && (
+    <header
+      className={`${styles["faster-dialog__header"]} ${
+        divider ? styles["faster-dialog__header--divider"] : ""
+      }`}
+      data-divider={divider ? "true" : "false"}
+    >
+      {hasTitle ? (
+        <h2 id={id} className={styles["faster-dialog__title"]}>
+          {title}
+        </h2>
+      ) : null}
+      {hasClose ? (
         <button
           className={styles["faster-dialog__close"]}
           type="button"
@@ -79,7 +113,7 @@ export function DialogHeader({ title, id, onClose }: DialogHeaderProps) {
         >
           ×
         </button>
-      )}
+      ) : null}
     </header>
   );
 }
@@ -89,5 +123,16 @@ export function DialogBody({ children }: DialogContentProps) {
 }
 
 export function DialogFooter({ children }: DialogContentProps) {
-  return <footer className={styles["faster-dialog__footer"]}>{children}</footer>;
+  const { divider } = useDialogContext();
+
+  return (
+    <footer
+      className={`${styles["faster-dialog__footer"]} ${
+        divider ? styles["faster-dialog__footer--divider"] : ""
+      }`}
+      data-divider={divider ? "true" : "false"}
+    >
+      {children}
+    </footer>
+  );
 }

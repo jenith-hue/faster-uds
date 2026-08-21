@@ -3,4 +3,5 @@ export type {
   DialogContentProps,
   DialogHeaderProps,
   DialogProps,
+  DialogSize,
 } from "./Dialog.types";
