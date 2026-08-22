@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { Dialog } from "@/components/Dialog/Dialog";
@@ -50,5 +50,32 @@ describe("Dialog a11y", () => {
     );
 
     expect(screen.getByRole("button", { name: "Close dialog" })).toBeInTheDocument();
+  });
+
+  it("traps Tab focus within the dialog", () => {
+    render(
+      <button type="button">Outside</button>
+    );
+    render(
+      <Dialog
+        open
+        onOpenChange={() => undefined}
+        title="Dialog"
+        closable
+        footer={<button type="button">Confirm</button>}
+      >
+        Content
+      </Dialog>
+    );
+
+    const closeButton = screen.getByRole("button", { name: "Close dialog" });
+    const confirmButton = screen.getByRole("button", { name: "Confirm" });
+
+    confirmButton.focus();
+    fireEvent.keyDown(document, { key: "Tab" });
+    expect(closeButton).toHaveFocus();
+
+    fireEvent.keyDown(document, { key: "Tab", shiftKey: true });
+    expect(confirmButton).toHaveFocus();
   });
 });

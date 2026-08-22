@@ -3,10 +3,30 @@
   "version": "1.0.14",
   "description": "Accessible React UI primitives built with reusable CSS design tokens.",
   "license": "MIT",
+  "author": "Jenith James",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jenith-hue/faster-uds.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jenith-hue/faster-uds/issues"
+  },
+  "homepage": "https://github.com/jenith-hue/faster-uds#readme",
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "design-system",
+    "accessibility",
+    "typescript"
+  ],
   "type": "module",
   "main": "./dist/faster.cjs",
   "module": "./dist/faster.js",
   "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=18"
+  },
   "files": [
     "dist",
     "README.md"

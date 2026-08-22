@@ -157,7 +157,7 @@ const meta = {
     className: {
       control: "text",
       description:
-        "Adds custom CSS class names to the input root element for consumer-defined styling hooks.",
+        "Adds custom CSS class names to the input control element for consumer-defined styling hooks.",
       table: {
         type: { summary: "string" },
       },

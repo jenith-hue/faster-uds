@@ -9,9 +9,9 @@ export type ButtonIconOnlyShape = "square" | "round";
 type ButtonNativeProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children">;
 
 type ButtonSharedProps = ButtonNativeProps & {
-  category?: "normal" | "danger";
-  variant?: "primary" | "outline" | "ghost" | "link";
-  size?: "large" | "medium" | "small";
+  category?: ButtonCategory & {};
+  variant?: ButtonVariant & {};
+  size?: ButtonSize & {};
   loading?: boolean;
   fullWidth?: boolean;
   className?: string;
@@ -20,7 +20,7 @@ type ButtonSharedProps = ButtonNativeProps & {
 type ButtonLabelProps = ButtonSharedProps & {
   children: ReactNode;
   icon?: ReactNode;
-  iconPosition?: "start" | "end";
+  iconPosition?: ButtonIconPosition & {};
   iconOnlyShape?: never;
   "aria-label"?: string;
 };
@@ -29,9 +29,9 @@ type ButtonIconOnlyProps = ButtonSharedProps & {
   children?: never;
   icon: ReactNode;
   iconPosition?: never;
-  iconOnlyShape?: "square" | "round";
+  iconOnlyShape?: ButtonIconOnlyShape & {};
   "aria-label": string;
-  variant?: "primary" | "outline" | "ghost";
+  variant?: Exclude<ButtonVariant, "link"> & {};
 };
 
 export type ButtonProps = ButtonLabelProps | ButtonIconOnlyProps;

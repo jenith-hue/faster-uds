@@ -19,10 +19,8 @@ export default defineConfig({
 
   build: {
     cssCodeSplit: true,
+    copyPublicDir: false,
     lib: {
-      // entry: fileURLToPath(
-      //   new URL('./src/index.ts', import.meta.url)
-      // ),
       entry: './src/index.ts',
       name: 'Faster',
       formats: ['es', 'cjs'],

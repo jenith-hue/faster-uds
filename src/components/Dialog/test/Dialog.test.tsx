@@ -86,6 +86,18 @@ describe("Dialog", () => {
     expect(screen.getByRole("dialog")).toHaveClass(styles["faster-dialog--large"]);
   });
 
+  it("merges a consumer className without dropping internal classes", () => {
+    render(
+      <Dialog open onOpenChange={() => undefined} title="Title" className="custom-class">
+        Body
+      </Dialog>
+    );
+
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toHaveClass("custom-class");
+    expect(dialog).toHaveClass(styles["faster-dialog"]);
+  });
+
   it("closes from close icon, overlay, and escape", () => {
     const change = jest.fn();
 
@@ -97,13 +109,15 @@ describe("Dialog", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Close dialog" }));
     expect(change).toHaveBeenLastCalledWith(false);
-
-    // fireEvent.mouseDown(
-    //   document.querySelector(`.${styles["faster-dialog__backdrop"]}`)
-    // );
     expect(change).toHaveBeenCalledTimes(1);
 
-    fireEvent.keyDown(document, { key: "Escape" });
+    const backdrop = document.querySelector(
+      `.${styles["faster-dialog__backdrop"]}`
+    ) as HTMLElement;
+    fireEvent.mouseDown(backdrop, { target: backdrop });
     expect(change).toHaveBeenCalledTimes(2);
+
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(change).toHaveBeenCalledTimes(3);
   });
 });
