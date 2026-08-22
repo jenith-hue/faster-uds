@@ -1,6 +1,6 @@
 import { useId } from "react";
-import styles from "./Input.module.css";
-import type { InputProps } from "./Input.types";
+import styles from "@/components/Input/Input.module.css";
+import type { InputProps } from "@/components/Input/Input.types";
 import {
   ICON_POSITION_END,
   ICON_POSITION_START,
@@ -12,7 +12,7 @@ import {
   INPUT_TYPE_CURRENCY,
   INPUT_TYPE_TEXT,
   SIZE_MEDIUM,
-} from "../../const";
+} from "@/const";
 
 // export type { InputProps } from "./Input.types";
 

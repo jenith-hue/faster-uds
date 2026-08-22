@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { Dialog } from "../Dialog";
+import { Dialog } from "@/components/Dialog/Dialog";
 
 describe("Dialog a11y", () => {
   it("has dialog role and aria-modal", () => {

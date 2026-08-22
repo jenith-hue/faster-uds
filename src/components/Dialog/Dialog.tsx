@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef } from "react";
 import { createPortal } from "react-dom";
-import styles from "./Dialog.module.css";
-import type { DialogProps } from "./Dialog.types";
+import styles from "@/components/Dialog/Dialog.module.css";
+import type { DialogProps } from "@/components/Dialog/Dialog.types";
 
 // export type { DialogProps } from "./Dialog.types";
 

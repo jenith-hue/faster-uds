@@ -1,4 +1,4 @@
-export { Button } from './Button';
+export { Button } from '@/components/Button/Button';
 export type {
   ButtonCategory,
   ButtonIconOnlyShape,
@@ -6,4 +6,4 @@ export type {
   ButtonProps,
   ButtonSize,
   ButtonVariant,
-} from './Button.types';
+} from '@/components/Button/Button.types';

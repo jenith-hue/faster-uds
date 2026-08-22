@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Input } from "../Input";
-import styles from "../Input.module.css";
+import { Input } from "@/components/Input/Input";
+import styles from "@/components/Input/Input.module.css";
 
 describe("Input", () => {
   it("connects label and helper text to input", () => {

@@ -1,4 +1,4 @@
-import styles from "./Button.module.css";
+import styles from "@/components/Button/Button.module.css";
 import {
   BUTTON_CATEGORY_NORMAL,
   BUTTON_ICON_ONLY_SHAPE_SQUARE,
@@ -7,18 +7,9 @@ import {
   ICON_POSITION_END,
   ICON_POSITION_START,
   SIZE_MEDIUM,
-} from "../../const";
-import type { ButtonProps } from "./Button.types";
-import { getButtonClassName, getIconPositionClass } from "./Button.utils";
-
-// export type {
-//   ButtonCategory,
-//   ButtonIconOnlyShape,
-//   ButtonIconPosition,
-//   ButtonProps,
-//   ButtonSize,
-//   ButtonVariant,
-// } from "./Button.types";
+} from "@/const";
+import type { ButtonProps } from "@/components/Button/Button.types";
+import { getButtonClassName, getIconPositionClass } from "@/components/Button/Button.utils";
 
 export function Button({
   category = BUTTON_CATEGORY_NORMAL,

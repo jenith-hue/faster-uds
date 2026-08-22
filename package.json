@@ -28,7 +28,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && tsc -p tsconfig.types.json",
+    "build": "tsc -b && vite build && tsc -p tsconfig.types.json && tsc-alias -p tsconfig.types.json",
     "lint": "eslint .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -69,6 +69,7 @@
     "react-dom": "^19.2.8",
     "storybook": "^10.5.9",
     "ts-jest": "^29.4.12",
+    "tsc-alias": "^1.9.2",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.67.0",
     "vite": "^8.2.0",

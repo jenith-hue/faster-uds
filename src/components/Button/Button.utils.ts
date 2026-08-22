@@ -1,12 +1,12 @@
-import styles from "./Button.module.css";
+import styles from "@/components/Button/Button.module.css";
 import type {
   ButtonCategory,
   ButtonIconOnlyShape,
   ButtonIconPosition,
   ButtonSize,
   ButtonVariant,
-} from "./Button.types";
-import { ICON_POSITION_END } from "../../const";
+} from "@/components/Button/Button.types";
+import { ICON_POSITION_END } from "@/const";
 
 export function getButtonClassName(
   base: string,

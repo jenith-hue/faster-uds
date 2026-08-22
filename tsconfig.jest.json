@@ -9,6 +9,9 @@
     "allowSyntheticDefaultImports": true,
     "verbatimModuleSyntax": false,
     "skipLibCheck": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

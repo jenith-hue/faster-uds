@@ -3,7 +3,7 @@ import {
   Button,
   Dialog,
   Input,
-} from "./index";
+} from "@/index";
 
 export default function App() {
   const [open, setOpen] = useState(false);

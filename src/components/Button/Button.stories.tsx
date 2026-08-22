@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Button } from "./Button";
+import { Button } from "@/components/Button/Button";
 
 const plusIcon = <span aria-hidden="true">+</span>;
 const arrowIcon = <span aria-hidden="true">-&gt;</span>;
@@ -86,6 +86,25 @@ const meta = {
       table: {
         type: { summary: "boolean" },
         defaultValue: { summary: "false" },
+      },
+    },
+    className: {
+      control: "text",
+      description:
+        "Adds custom CSS class names to the button root element for consumer-defined styling hooks.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+
+    type: {
+      control: "radio",
+      options: ["button", "submit", "reset"],
+      description:
+        "Sets the native HTML button type used for form behavior.",
+      table: {
+        type: { summary: '"button" | "submit" | "reset"' },
+        defaultValue: { summary: "button" },
       },
     },
 

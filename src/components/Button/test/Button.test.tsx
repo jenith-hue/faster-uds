@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Button } from "../Button";
-import styles from "../Button.module.css";
+import { Button } from "@/components/Button/Button";
+import styles from "@/components/Button/Button.module.css";
 
 describe("Button", () => {
   it("renders every supported category and variant pair", () => {

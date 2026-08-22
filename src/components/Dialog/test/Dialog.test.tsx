@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Dialog } from "../Dialog";
-import styles from "../Dialog.module.css";
+import { Dialog } from "@/components/Dialog/Dialog";
+import styles from "@/components/Dialog/Dialog.module.css";
 
 describe("Dialog", () => {
   it("is absent when closed and present when open", () => {

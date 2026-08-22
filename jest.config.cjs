@@ -8,7 +8,8 @@ module.exports = {
   },
   moduleNameMapper: {
     '\\.module\\.css$': 'identity-obj-proxy',
-    "\\.(css)$": "identity-obj-proxy"
+    "\\.(css)$": "identity-obj-proxy",
+    "^@/(.*)$": "<rootDir>/src/$1"
   },
   testMatch: ["<rootDir>/src/**/*.test.ts?(x)"],
 };

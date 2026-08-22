@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Input } from "./Input";
+import { Input } from "@/components/Input/Input";
 
 const meta = {
   title: "Components/Input",
@@ -101,8 +101,7 @@ const meta = {
 
     onClear: {
       control: false,
-      description:
-        "Callback invoked when the user activates the clear action.",
+      description: "Callback invoked when the user activates the clear action.",
       table: {
         type: { summary: "() => void" },
       },
@@ -150,6 +149,15 @@ const meta = {
       control: "text",
       description:
         "Initial value displayed in the input when it is first rendered.",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+
+    className: {
+      control: "text",
+      description:
+        "Adds custom CSS class names to the input root element for consumer-defined styling hooks.",
       table: {
         type: { summary: "string" },
       },

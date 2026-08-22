@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Button } from "../Button";
-import { Dialog } from "./Dialog";
+import { Button } from "@/components/Button";
+import { Dialog } from "@/components/Dialog/Dialog";
 
 const footer = (
   <>
