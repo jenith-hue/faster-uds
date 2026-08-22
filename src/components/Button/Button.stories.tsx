@@ -117,6 +117,10 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+function iconOnlySource({ shape }: { shape: "square" | "round" }): string {
+  return `<Button aria-label="Add item" icon={<span aria-hidden="true">+</span>} iconOnlyShape="${shape}" />`;
+}
+
 export const Primary: Story = {};
 export const Danger: Story = { args: { category: "danger" } };
 export const Outline: Story = { args: { variant: "outline" } };
@@ -135,9 +139,25 @@ export const IconOnly: Story = {
   render: () => (
     <Button aria-label="Add item" icon={plusIcon} iconOnlyShape="square" />
   ),
+  parameters: {
+    docs: {
+      source: {
+        code: iconOnlySource({ shape: "square" }),
+        language: "tsx",
+      },
+    },
+  },
 };
 export const IconOnlyRound: Story = {
   render: () => (
     <Button aria-label="Add item" icon={plusIcon} iconOnlyShape="round" />
   ),
+  parameters: {
+    docs: {
+      source: {
+        code: iconOnlySource({ shape: "round" }),
+        language: "tsx",
+      },
+    },
+  },
 };

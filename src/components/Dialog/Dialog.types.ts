@@ -9,6 +9,6 @@ export type DialogProps = Omit<HTMLAttributes<HTMLDivElement>, "title" | "childr
   closable?: boolean;
   footer?: ReactNode;
   divider?: boolean;
-  size?: DialogSize;
+  size?: "small" | "medium" | "large";
   children: ReactNode;
 };

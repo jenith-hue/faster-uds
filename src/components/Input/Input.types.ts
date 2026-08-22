@@ -8,10 +8,10 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "s
   label?: string;
   helperText?: string;
   error?: string;
-  size?: InputSize;
-  type?: InputType;
+  size?: "large" | "medium" | "small";
+  type?: InputHTMLAttributes<HTMLInputElement>["type"] | "currency";
   icon?: ReactNode;
-  iconPosition?: InputIconPosition;
+  iconPosition?: "start" | "end";
   prefix?: ReactNode;
   suffix?: ReactNode;
   clearable?: boolean;

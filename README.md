@@ -35,6 +35,12 @@ npm run build-storybook
 npm run build
 ```
 
+Cypress expects the demo app on `http://localhost:5173`. If another dev server already occupies that port, start the demo with `npm run dev` (Vite will pick the next free port) and point Cypress at it:
+
+```bash
+CYPRESS_BASE_URL=http://localhost:5174 npm run test:e2e
+```
+
 Storybook documents every component variant and runs accessibility checks. Deploy `storybook-static` through GitHub Pages, Chromatic, Netlify, or Vercel.
 
 ## Quality strategy
