@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe("Faster demo", () => {
   beforeEach(() => cy.visit("/"));
 
@@ -16,7 +18,7 @@ describe("Faster demo", () => {
       .and("have.attr", "aria-labelledby");
     cy.get('[role="dialog"]')
       .invoke("attr", "aria-labelledby")
-      .then((titleId) => {
+      .then((titleId: string | undefined) => {
         cy.wrap(titleId).should("be.a", "string").and("not.be.empty");
         // Use a quoted attribute selector so generated ids (e.g. ":r1:") work.
         cy.get(`[id="${titleId}"]`).should("have.text", "Welcome to Faster");
@@ -60,7 +62,7 @@ describe("Faster demo", () => {
     cy.get("label")
       .contains("Work email")
       .invoke("attr", "for")
-      .then((inputId) => {
+      .then((inputId: string | undefined) => {
         cy.wrap(inputId).should("be.a", "string").and("not.be.empty");
         cy.get(`input[id="${inputId}"]`).should("have.attr", "aria-describedby");
       });
@@ -69,7 +71,7 @@ describe("Faster demo", () => {
   it("shows the placeholder and helper text for the input", () => {
     cy.get('input[placeholder="you@example.com"]')
       .invoke("attr", "aria-describedby")
-      .then((hintId) => {
+      .then((hintId: string | undefined) => {
         cy.wrap(hintId).should("be.a", "string").and("not.be.empty");
         cy.get(`[id="${hintId}"]`).should("have.text", "We only use this for updates.");
       });
