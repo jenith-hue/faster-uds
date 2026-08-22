@@ -6,6 +6,9 @@ module.exports = {
       { tsconfig: "tsconfig.jest.json", diagnostics: false },
     ],
   },
-  moduleNameMapper: { "\\.(css)$": "identity-obj-proxy" },
+  moduleNameMapper: {
+    '\\.module\\.css$': 'identity-obj-proxy',
+    "\\.(css)$": "identity-obj-proxy"
+  },
   testMatch: ["<rootDir>/src/**/*.test.ts?(x)"],
 };

@@ -14,6 +14,7 @@ type ButtonSharedProps = ButtonNativeProps & {
   size?: ButtonSize;
   loading?: boolean;
   fullWidth?: boolean;
+  className?: string;
 };
 
 type ButtonLabelProps = ButtonSharedProps & {
